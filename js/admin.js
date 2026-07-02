@@ -63,31 +63,59 @@
     const complaints = getComplaints();
     if (!complaints.length) return '<div class="empty-card"><strong>No complaints</strong>New student, driver, ride and delivery reports will appear here.</div>';
 
-    return '<div class="list-card complaint-list">' + complaints.map(function (item) {
-      const selected = window.HopprState.selectedComplaintId === item.id ? ' selected-complaint' : '';
-      return '<div class="list-row complaint-row' + selected + '">' +
-        '<div class="row-icon">!</div>' +
-        '<div class="row-main"><strong>' + window.HopprUI.escape(item.id) + ' · ' + window.HopprUI.escape(item.priority) + ' Priority</strong>' +
-          '<span>' + window.HopprUI.escape(item.serviceType) + ' · ' + window.HopprUI.escape(item.issue) + '<br>Reported by ' + window.HopprUI.escape(item.reporter) + ' against ' + window.HopprUI.escape(item.against) + '</span></div>' +
-        '<div class="admin-action-stack">' +
-          '<span class="badge ' + statusClass(item.status) + '">' + window.HopprUI.escape(item.status) + '</span>' +
-          '<button type="button" class="secondary-btn view-complaint" data-id="' + window.HopprUI.escape(item.id) + '">View Details</button>' +
-        '</div>' +
-      '</div>';
-    }).join('') + '</div>';
+    return '<div class="complaint-dashboard">' +
+      '<div class="complaint-help-card">' +
+        '<strong>Complaint Review Flow</strong>' +
+        '<span>1. Select a report → 2. Read full details → 3. Choose admin action → 4. Update status</span>' +
+      '</div>' +
+      '<div class="list-card complaint-list">' + complaints.map(function (item) {
+        const selected = window.HopprState.selectedComplaintId === item.id ? ' selected-complaint' : '';
+        return '<div class="list-row complaint-row' + selected + '">' +
+          '<div class="complaint-type-icon ' + complaintIconClass(item) + '">' + complaintIcon(item) + '</div>' +
+          '<div class="row-main"><strong>' + window.HopprUI.escape(item.id) + ' · ' + window.HopprUI.escape(item.priority) + ' Priority</strong>' +
+            '<span>' + window.HopprUI.escape(item.serviceType) + ' · ' + window.HopprUI.escape(item.issue) + '<br>Reported by ' + window.HopprUI.escape(item.reporter) + ' against ' + window.HopprUI.escape(item.against) + '</span></div>' +
+          '<div class="admin-action-stack">' +
+            '<span class="badge ' + statusClass(item.status) + '">' + window.HopprUI.escape(item.status) + '</span>' +
+            '<button type="button" class="secondary-btn view-complaint" data-id="' + window.HopprUI.escape(item.id) + '">View Details</button>' +
+          '</div>' +
+        '</div>';
+      }).join('') + '</div>' +
+      (!window.HopprState.selectedComplaintId
+        ? '<div class="select-complaint-hint"><strong>Select a complaint to view details</strong><span>Complaint details and admin action controls will appear only after pressing View Details.</span></div>'
+        : '') +
+    '</div>';
+  }
+
+  function complaintIcon(item) {
+    if (item.serviceType === 'Ride Booking') return '🚕';
+    if (item.serviceType === 'Food Delivery') return '🍱';
+    if (item.serviceType === 'Parcel Delivery') return '📦';
+    return '!';
+  }
+
+  function complaintIconClass(item) {
+    if (item.priority === 'High') return 'high';
+    if (item.priority === 'Medium') return 'medium';
+    return 'low';
   }
 
   function complaintDetails() {
     const complaints = getComplaints();
-    const selectedId = window.HopprState.selectedComplaintId || (complaints[0] && complaints[0].id);
+    const selectedId = window.HopprState.selectedComplaintId;
+    if (!selectedId) return '';
     const item = complaints.find(function (c) { return c.id === selectedId; });
     if (!item) return '';
 
     return '<h3 class="section-title">Complaint Details</h3>' +
-      '<div class="complaint-detail-card">' +
+      '<div id="complaintDetailsCard" class="complaint-detail-card reveal-detail">' +
         '<div class="complaint-detail-header">' +
           '<div><p class="card-label">Selected Complaint</p><h3>' + window.HopprUI.escape(item.id) + ' · ' + window.HopprUI.escape(item.issue) + '</h3></div>' +
           '<span class="badge ' + statusClass(item.status) + '">' + window.HopprUI.escape(item.status) + '</span>' +
+        '</div>' +
+        '<div class="complaint-flow-steps">' +
+          flowStep('1', 'Review Details', 'Read reporter, evidence and route') +
+          flowStep('2', 'Choose Action', 'Select warning, contact, refund or suspension') +
+          flowStep('3', 'Update Status', 'Save admin note and complaint result') +
         '</div>' +
         '<div class="complaint-grid">' +
           detailLine('Reporter', item.reporter + ' (' + item.reporterRole + ')') +
@@ -123,6 +151,10 @@
           '</div>' +
         '</form>' +
       '</div>';
+  }
+
+  function flowStep(number, title, text) {
+    return '<div class="flow-step"><div class="flow-number">' + window.HopprUI.escape(number) + '</div><div><strong>' + window.HopprUI.escape(title) + '</strong><span>' + window.HopprUI.escape(text) + '</span></div></div>';
   }
 
   function detailLine(label, value) {
@@ -197,6 +229,7 @@
     window.HopprUI.qsa('.view-complaint').forEach(function (button) {
       button.addEventListener('click', function () {
         window.HopprState.selectedComplaintId = button.getAttribute('data-id');
+        window.HopprState.scrollToComplaintDetails = true;
         window.HopprUI.toast('Complaint details opened.', 'success');
         window.HopprRouter.go('admin');
       });
@@ -220,6 +253,14 @@
         window.HopprUI.toast('Complaint action applied: ' + action, 'success');
         window.HopprRouter.go('admin');
       });
+    }
+
+    if (window.HopprState.scrollToComplaintDetails) {
+      window.HopprState.scrollToComplaintDetails = false;
+      setTimeout(function () {
+        const target = window.HopprUI.el('complaintDetailsCard');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 120);
     }
 
     const resolved = window.HopprUI.el('markResolved');
