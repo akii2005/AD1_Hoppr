@@ -1,0 +1,21 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hoppr logo">
+  <defs>
+    <linearGradient id="bg" x1="24" y1="18" x2="218" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7B2DFF"/>
+      <stop offset="0.55" stop-color="#4C1D95"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="52" y1="56" x2="190" y2="172" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D9FFFE"/>
+      <stop offset="0.42" stop-color="#7EF2E8"/>
+      <stop offset="1" stop-color="#F8D36D"/>
+    </linearGradient>
+    <filter id="shadow" x="24" y="22" width="192" height="198" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#111827" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect x="30" y="26" width="180" height="188" rx="42" fill="url(#bg)" filter="url(#shadow)"/>
+  <path d="M70 60h29l-13 53h41l13-53h30l-31 124h-30l12-47H80l-12 47H38L70 60Z" fill="url(#mark)"/>
+  <path d="M147 144c16-19 33-28 51-28 7 0 12 2 16 6-8 3-15 8-22 16-11 13-24 23-39 30l-6-24Z" fill="#7EF2E8" opacity="0.88"/>
+  <text x="62" y="203" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="32" fill="#fff">hoppr</text>
+</svg>
