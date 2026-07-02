@@ -182,28 +182,89 @@ code { background: rgba(124, 58, 237, 0.10); color: var(--primary); border-radiu
 .app-screen::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.3); border-radius: 99px; }
 
 .tab-bar {
-  height: 76px;
+  height: 92px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
-  padding: 9px 10px 12px;
-  background: var(--panel);
+  gap: 7px;
+  padding: 10px 12px 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.98));
   border-radius: 0 0 34px 34px;
   border-top: 1px solid var(--border);
+  box-shadow: 0 -14px 32px rgba(15, 23, 42, 0.08);
+}
+body.dark .tab-bar {
+  background:
+    linear-gradient(180deg, rgba(24,26,46,0.96), rgba(17,24,39,0.98));
 }
 .tab {
+  position: relative;
+  min-width: 0;
   border: 0;
   background: transparent;
   color: var(--muted);
-  border-radius: 18px;
-  display: grid;
-  gap: 2px;
-  place-items: center;
-  font-size: 11px;
-  font-weight: 800;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 4px 6px;
+  font-size: 10.5px;
+  line-height: 1.05;
+  font-weight: 850;
+  transition: transform .18s ease, color .18s ease, background .18s ease;
 }
-.tab span { font-size: 18px; }
-.tab.active { background: rgba(124, 58, 237, 0.12); color: var(--primary); }
+.tab:hover {
+  transform: translateY(-1px);
+  background: rgba(124, 58, 237, 0.06);
+}
+.tab-icon {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: var(--muted);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  transition: .18s ease;
+}
+.tab-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tab-label {
+  display: block;
+  max-width: 62px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.tab.active {
+  background: rgba(124, 58, 237, 0.10);
+  color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(91, 33, 182, 0.12);
+}
+.tab.active .tab-icon {
+  color: white;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  box-shadow: 0 10px 20px rgba(91, 33, 182, 0.28);
+}
+.tab.active .tab-label {
+  color: var(--primary);
+  font-weight: 900;
+}
+.tab.locked .tab-icon::after {
+  content: "";
+  position: absolute;
+}
 
 .desktop-preview { margin-top: 36px; }
 .desktop-preview h2 { margin: 0 0 16px; font-size: 28px; letter-spacing: -0.04em; }
