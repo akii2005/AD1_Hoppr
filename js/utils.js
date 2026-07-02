@@ -160,39 +160,54 @@
   function navigationItems() {
     if (!state.activeUser) {
       return [
-        { route: 'home', label: 'Welcome', icon: '⌂', public: true },
-        { route: 'ride', label: 'Ride Booking', icon: '⌖', locked: true },
-        { route: 'delivery', label: 'Delivery Services', icon: '▣', locked: true },
-        { route: 'assistant', label: 'AI Assistant', icon: '🤖', locked: true },
-        { route: 'driver', label: 'Driver Mode', icon: '♢', locked: true },
-        { route: 'admin', label: 'Admin Monitor', icon: '◆', locked: true }
+        { route: 'home', label: 'Welcome', shortLabel: 'Welcome', icon: '⌂', public: true },
+        { route: 'ride', label: 'Ride Booking', shortLabel: 'Ride', icon: '⌖', locked: true },
+        { route: 'delivery', label: 'Delivery Services', shortLabel: 'Delivery', icon: '▣', locked: true },
+        { route: 'assistant', label: 'AI Assistant', shortLabel: 'AI', icon: '🤖', locked: true },
+        { route: 'driver', label: 'Driver Mode', shortLabel: 'Driver', icon: '♢', locked: true },
+        { route: 'admin', label: 'Admin Monitor', shortLabel: 'Admin', icon: '◆', locked: true }
       ];
     }
     if (isStudent()) {
       return [
-        { route: 'home', label: 'Home', icon: '⌂' },
-        { route: 'ride', label: 'Ride', icon: '⌖' },
-        { route: 'delivery', label: 'Delivery', icon: '▣' },
-        { route: 'assistant', label: 'AI', icon: '🤖' },
-        { route: 'history', label: 'History', icon: '◷' },
-        { route: 'profile', label: 'Profile', icon: '◉' }
+        { route: 'home', label: 'Home', shortLabel: 'Home', icon: '⌂' },
+        { route: 'ride', label: 'Ride', shortLabel: 'Ride', icon: '⌖' },
+        { route: 'delivery', label: 'Delivery', shortLabel: 'Delivery', icon: '▣' },
+        { route: 'assistant', label: 'AI Assistant', shortLabel: 'AI', icon: '🤖' },
+        { route: 'history', label: 'History', shortLabel: 'History', icon: '◷' },
+        { route: 'profile', label: 'Profile', shortLabel: 'Profile', icon: '◉' }
       ];
     }
     if (isDriver()) {
       return [
-        { route: 'home', label: 'Home', icon: '⌂' },
-        { route: 'driver', label: 'Jobs', icon: '♢' },
-        { route: 'assistant', label: 'AI', icon: '🤖' },
-        { route: 'history', label: 'Earnings', icon: 'RM' },
-        { route: 'profile', label: 'Profile', icon: '◉' }
+        { route: 'home', label: 'Home', shortLabel: 'Home', icon: '⌂' },
+        { route: 'driver', label: 'Jobs', shortLabel: 'Jobs', icon: '♢' },
+        { route: 'assistant', label: 'AI Assistant', shortLabel: 'AI', icon: '🤖' },
+        { route: 'history', label: 'Earnings', shortLabel: 'Earnings', icon: 'RM' },
+        { route: 'profile', label: 'Profile', shortLabel: 'Profile', icon: '◉' }
       ];
     }
     return [
-      { route: 'home', label: 'Home', icon: '⌂' },
-      { route: 'admin', label: 'Monitor', icon: '◆' },
-      { route: 'assistant', label: 'AI', icon: '🤖' },
-      { route: 'profile', label: 'Profile', icon: '◉' }
+      { route: 'home', label: 'Home', shortLabel: 'Home', icon: '⌂' },
+      { route: 'admin', label: 'Monitor', shortLabel: 'Monitor', icon: '◆' },
+      { route: 'assistant', label: 'AI Assistant', shortLabel: 'AI', icon: '🤖' },
+      { route: 'profile', label: 'Profile', shortLabel: 'Profile', icon: '◉' }
     ];
+  }
+
+
+  function navIcon(route) {
+    const icons = {
+      home: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5L12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path><path d="M9.5 20v-5h5v5"></path></svg>',
+      ride: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16h14"></path><path d="M6.5 16l1.3-5.2A3 3 0 0 1 10.7 8h2.6a3 3 0 0 1 2.9 2.8L17.5 16"></path><path d="M7 16v2"></path><path d="M17 16v2"></path><circle cx="8" cy="18" r="1.6"></circle><circle cx="16" cy="18" r="1.6"></circle></svg>',
+      delivery: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5l8-4 8 4-8 4-8-4z"></path><path d="M4 7.5v9l8 4 8-4v-9"></path><path d="M12 11.5v9"></path></svg>',
+      assistant: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="11" rx="3"></rect><path d="M9 7V4"></path><path d="M15 7V4"></path><circle cx="9.5" cy="12.5" r="1"></circle><circle cx="14.5" cy="12.5" r="1"></circle><path d="M9 16h6"></path><path d="M3.5 11v4"></path><path d="M20.5 11v4"></path></svg>',
+      driver: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 14v6"></path><path d="M10.5 10.5L5 8.5"></path><path d="M13.5 10.5L19 8.5"></path></svg>',
+      admin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>',
+      history: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 7v5l3 2"></path><path d="M4 12H2"></path></svg>',
+      profile: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0"></path></svg>'
+    };
+    return icons[route] || '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"></circle></svg>';
   }
 
   function renderNavigation(activeRoute) {
@@ -207,7 +222,11 @@
     if (tabs) {
       tabs.style.gridTemplateColumns = 'repeat(' + items.length + ', 1fr)';
       tabs.innerHTML = items.map(function (item) {
-        return '<button type="button" data-route="' + item.route + '" class="tab ' + (item.locked ? 'locked ' : '') + (item.route === activeRoute ? 'active' : '') + '"><span>' + escapeHTML(item.icon) + '</span>' + escapeHTML(item.label) + '</button>';
+        const tabLabel = item.shortLabel || item.label;
+        return '<button type="button" data-route="' + item.route + '" class="tab ' + (item.locked ? 'locked ' : '') + (item.route === activeRoute ? 'active' : '') + '">' +
+          '<span class="tab-icon">' + navIcon(item.route) + '</span>' +
+          '<span class="tab-label">' + escapeHTML(tabLabel) + '</span>' +
+        '</button>';
       }).join('');
     }
   }
